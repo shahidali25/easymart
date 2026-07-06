@@ -1,263 +1,108 @@
-# 🛒 EasyMart - Grocery Delivery Platform
+# EasyMart
 
-A modern Django-based grocery delivery application with user authentication, product management, shopping cart, and Razorpay payment integration.
+EasyMart is a Django-based grocery shopping platform with user authentication, product browsing, cart management, checkout, order tracking, and Razorpay payment support.
 
-## ✨ Features
+## Features
 
-### User Management
-- ✅ Email-based authentication
-- ✅ OTP verification (5-minute expiry)
-- ✅ User dashboard with order history
-- ✅ Address management with default address
-- ✅ Password reset via OTP
-- ✅ Profile management
+- Email/OTP-based account signup and login
+- User dashboard, address management, and password reset
+- Product catalog with categories and product detail pages
+- Session-based guest cart and authenticated cart support
+- Checkout with online payment or cash on delivery
+- Order history, order detail, and order tracking pages
+- Jazzmin-styled Django admin for easier management
+- Sample products created for local development
 
-### Product Management
-- ✅ Category-based product filtering
-- ✅ Advanced search functionality
-- ✅ Product discounts with auto-calculation
-- ✅ Stock management
-- ✅ Product availability tracking
-- ✅ Hero banners and offers
+## Tech Stack
 
-### Shopping Cart
-- ✅ Add/remove items from cart
-- ✅ Quantity adjustment
-- ✅ Real-time cart updates (AJAX)
-- ✅ Guest cart support (session-based)
-- ✅ Auto price calculation with discounts
+- Django 6.0.4
+- SQLite for development
+- Bootstrap, HTML, CSS, and JavaScript on the frontend
+- Razorpay for payment processing
+- Jazzmin for the admin interface
+- python-dotenv for environment variables
 
-### Checkout & Payments
-- ✅ Multiple payment methods (Online & COD)
-- ✅ Razorpay payment gateway integration
-- ✅ Order status tracking
-- ✅ Auto order status updates
-- ✅ Order history with details
-- ✅ Payment verification
+## Requirements
 
-### Admin Panel
-- ✅ Custom admin interface (Jazzmin)
-- ✅ Product/category management
-- ✅ Order management with bulk actions
-- ✅ User management
-- ✅ Order status updates
-- ✅ Order item tracking
-
-## 🛠️ Tech Stack
-
-- **Backend**: Django 6.0.4
-- **Database**: SQLite (development) / PostgreSQL (production)
-- **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
-- **Payment**: Razorpay API
-- **Admin**: Jazzmin (styled Django admin)
-- **Authentication**: JWT tokens + OTP verification
-
-## 📋 Requirements
-
-- Python 3.10+
+- Python 3.10 or newer
 - pip
-- Virtual Environment
+- A virtual environment is recommended
 
-## 🚀 Installation & Setup
+## Setup
 
-### 1. Clone/Download Project
 ```bash
 cd easymart
-```
-
-### 2. Create Virtual Environment
-```bash
 python -m venv env
-# Activate it
-# Windows:
 env\Scripts\activate
-# Mac/Linux:
-source env/bin/activate
-```
-
-### 3. Install Dependencies
-```bash
 pip install -r requirements.txt
-```
-
-### 4. Configure Environment
-```bash
-# Copy the template
-cp .env.example .env
-
-# Edit .env with your configuration
-# Required: EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-# Optional: RAZORPAY keys for payment
-```
-
-### 5. Run Migrations
-```bash
 python manage.py migrate
-```
-
-### 6. Create Admin Account
-```bash
 python manage.py createsuperuser
-```
-
-### 7. Run Development Server
-```bash
 python manage.py runserver
 ```
 
-Visit:
-- **Frontend**: http://127.0.0.1:8000
-- **Admin**: http://127.0.0.1:8000/admin
+Open the app at http://127.0.0.1:8000 and the admin panel at http://127.0.0.1:8000/admin.
 
-## 📚 API Endpoints
+## Environment Variables
 
-### Authentication
-- `POST /accounts/api/login/` - API login
-- `POST /accounts/api/send-otp/` - Send OTP to email
-- `POST /accounts/api/verify-otp/` - Verify OTP
-- `POST /accounts/signup/` - Create account
-- `GET /accounts/logout/` - Logout
+The project loads environment variables from a `.env` file.
 
-### Products
-- `GET /products/home/` - Product list with filters
-- `GET /products/product/<id>/` - Product details
-- `GET /products/category/` - Category list
+Useful values include:
 
-### Cart (Authenticated)
-- `GET /cart/` - View cart
-- `POST /cart/add/` - Add to cart (AJAX)
-- `POST /cart/update/` - Update quantity (AJAX)
-- `GET /cart/remove/<id>/` - Remove item
-- `POST /cart/remove-ajax/` - Remove via AJAX
+- `SECRET_KEY`
+- `DEBUG`
+- `ALLOWED_HOSTS`
+- `EMAIL_HOST_USER`
+- `EMAIL_HOST_PASSWORD`
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_KEY_SECRET`
 
-### Orders (Authenticated)
-- `GET /orders/checkout/` - Checkout page
-- `POST /orders/create-razorpay-order/` - Create Razorpay order
-- `POST /orders/verify-payment/` - Verify payment
-- `POST /orders/place-cod-order/` - Place COD order
-- `GET /orders/history/` - Order history
-- `GET /orders/detail/<id>/` - Order details
-- `GET /orders/track/<id>/` - Track order
+The default email backend is console-based for local development, so email credentials mainly matter when you switch to SMTP.
 
-## 🔒 Security Features
+## Main Routes
 
-### Development
-- CSRF protection enabled
-- XFrame options set to DENY
-- Content type nosniff enabled
-- Session cookies with HTTPONLY flag
+- `/` - landing page
+- `/accounts/signup/` - create account
+- `/accounts/login/` - login page
+- `/accounts/dashboard/` - user dashboard
+- `/accounts/address/` - saved addresses
+- `/products/home/` - product listing
+- `/products/product/<id>/` - product details
+- `/products/category/` - category view
+- `/cart/` - cart page
+- `/cart/add/` - add item to cart
+- `/cart/update/` - update cart quantity
+- `/orders/checkout/` - checkout page
+- `/orders/history/` - order history
+- `/orders/detail/<order_id>/` - order detail page
+- `/orders/track/<order_id>/` - order tracking
+- `/admin/` - Django admin
 
-### Production (Configure in .env)
-- SSL/HTTPS redirect
-- Secure session cookies
-- Secure CSRF cookies
-- HSTS headers
-- Strong SECRET_KEY required
+## Useful Commands
 
-## 📦 Sample Data
-
-The application auto-generates sample products on first load with:
-- 24 sample products across 6 categories
-- Auto-category creation
-- Product descriptions
-
-Products include:
-- 🍎 Fruits (Apple, Banana, Mango, Orange)
-- 🥬 Vegetables (Carrot, Tomato, Onion, Potato)
-- 🥛 Dairy (Milk, Butter, Cheese, Curd)
-- 🍞 Bakery (Bread, Cake, Bun, Croissant)
-- 🥤 Beverages (Juice, Tea, Coffee, Cold Drink)
-- 🍿 Snacks (Chips, Biscuits, Namkeen, Popcorn)
-
-## 🎯 Key Models
-
-### User (Custom)
-- Email-based authentication
-- Phone number field
-- OTP codes management
-- Address management
-
-### Product
-- Categories with slugs
-- Price with discount
-- Stock management
-- Image upload
-- Auto slug generation
-
-### Cart
-- Session-based guest cart
-- Per-user authenticated cart
-- Real-time item tracking
-
-### Order
-- Multi-status workflow (Pending → Delivered)
-- Payment method tracking
-- Razorpay integration
-- Order items snapshot
-
-### Address
-- Multiple addresses per user
-- Default address support
-- Full address details
-
-## 🧪 Testing
-
-### Manual Testing Checklist
-- [ ] Home page loads with sample products
-- [ ] Login/Signup works
-- [ ] Add item to cart
-- [ ] Update cart quantities
-- [ ] Checkout page shows correct total
-- [ ] Order history displays
-- [ ] Admin panel accessible
-
-### Running Tests
 ```bash
+python manage.py makemigrations
+python manage.py migrate
 python manage.py test
+python manage.py check
+python manage.py collectstatic
 ```
 
-## 🚀 Production Deployment
+## Project Structure
 
-### Before Deployment
-1. Update .env with production values
-2. Set `DEBUG=False`
-3. Generate strong `SECRET_KEY` (use https://djecrety.ir/)
-4. Configure allowed hosts
-5. Set up SSL/HTTPS
-6. Use PostgreSQL instead of SQLite
+- `accounts/` - authentication, profiles, and addresses
+- `cart/` - cart logic and cart context helpers
+- `products/` - product catalog and landing pages
+- `orders/` - checkout, payment, and tracking
+- `easymart/` - project settings and URL configuration
+- `templates/` - shared HTML templates
+- `static/` - static assets
+- `media/` - uploaded media files
 
-### Database Migration (Production)
-```bash
-# Backup current database
-# Configure PostgreSQL in .env
-python manage.py migrate --database production
-```
+## Notes
 
-### Collect Static Files
-```bash
-python manage.py collectstatic --noinput
-```
-
-### Production Server Options
-- Gunicorn + Nginx
-- uWSGI + Apache
-- AWS/Heroku with buildpacks
-
-### Using Gunicorn
-```bash
-pip install gunicorn
-gunicorn easymart.wsgi:application --bind 0.0.0.0:8000
-```
-
-## 📝 Configuration Files
-
-### Key Settings
-- `easymart/settings.py` - Main Django configuration
-- `easymart/urls.py` - URL routing
-- `easymart/context_processors.py` - Template context
-- `.env` - Environment variables
-
-### App URLs
+- The project uses SQLite locally by default.
+- Sample products are created to make the storefront usable immediately after setup.
+- If you plan to deploy, set `DEBUG=False`, configure `ALLOWED_HOSTS`, and switch email and payment settings to production values.
 - `accounts/urls.py` - Authentication routes
 - `products/urls.py` - Product routes
 - `cart/urls.py` - Cart routes
